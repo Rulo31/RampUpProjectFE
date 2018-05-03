@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-md-12 text-center" ng-if="loggedUser">
+    <div class="panel panel-default main-banner">
+      <div class="panel-body">
+        <h1>Mejengueros</h1>
+        <br>
+        <p class="lead">
+          <img class="image-size shadow" src="assets/images/mejengueros.png">
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8 text-center" ng-if="!loggedUser">
+    <div class="panel panel-default main-banner">
+      <div class="panel-body">
+        <h1>Mejengueros</h1>
+        <br>
+        <p class="lead">
+          <img class="image-size shadow" src="assets/images/mejengueros.png">
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4" ng-show="!vm.isLoading && !loggedUser">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">Login</h2>
+      </div>
+      <div class="panel-body">
+        <form>
+          <div class="form-group">
+            <label for="inputEmail">Email address</label>
+            <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email" ng-model="vm.email">
+          </div>
+          <div class="form-group">
+            <label for="inputPassword">Password</label>
+            <input type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="vm.password">
+          </div>
+          <button type="submit" ng-click="vm.login()" class="btn btn-primary">Login</button>
+        </form>
+        <small id="createAccount" class="form-text text-muted pull-right">Still not a user?
+          <a ng-href="#/User/RegisterUser">Create an account.</a>
+        </small>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4" ng-show="vm.isLoading">
+    <ng-include src="'app/templates/loading.html'"></ng-include>
+  </div>
+</div>
+<hr ng-if="loggedUser">
+<br>
+<div class="row" ng-if="loggedUser">
+  <div class="col-sm-6 col-md-4" ng-repeat="module in vm.modules | orderBy:'rank'">
+    <div class="thumbnail">
+      <img class="pull-right" ng-src="assets/images/{{ module.logo }}" alt="{{ module.title }}">
+      <div class="caption">
+        <h3>{{ module.title }}</h3>
+        <br>
+        <ul>
+          <li><a ng-href="{{module.url1}}"> {{ module.description1 }}</a></li>
+          <li><a ng-href="{{module.url2}}"> {{ module.description2 }}</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

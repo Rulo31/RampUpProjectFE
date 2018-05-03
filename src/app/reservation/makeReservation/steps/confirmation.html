@@ -1,0 +1,46 @@
+<br><br>
+<div class="col-md-9">
+    <h3>Reservation Confirmation </h3>
+    <p>Please take a minute to review your reservation details before proceding with payment.</p>
+    <br>
+</div>
+<div class="col-md-3">
+    <br>
+    <button type="button" class="btn btn-default pull-right" wz-next>
+        Next
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    </button>
+    <button type="button" class="btn btn-default pull-right" wz-previous>
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        Back
+    </button>
+</div>
+<div class="col-md-12">
+    <form ng-hide="vm.isLoadingBranch" name="AddBranchForm">
+        <div class="form-group">
+            <label>Date:</label>
+            <label><em>{{vm.selectedDate | date:'fullDate' }}</em></label>
+        </div>
+        <div class="form-group">
+            <label>Time:</label>
+            <label><em>{{vm.selectedTime.value}}</em></label>
+        </div>
+        <div class="form-group">
+            <label>Business:</label>
+            <label><em>{{vm.selectedField.Business_Name}}</em></label>
+        </div>
+        <div class="form-group">
+            <label>Branch:</label>
+            <label><em>{{vm.selectedField.Branch_Name}}</em></label>
+        </div>
+        <div class="form-group">
+            <label>Field #</label>
+            <label><em>{{vm.selectedField.Number}}</em></label>
+        </div>
+        <div class="form-group">
+            <label>Cost:</label>
+            <label><em>{{vm.selectedField.Cost}}</em></label>
+        </div>
+    </form>
+    <br>
+</div>

@@ -1,0 +1,8 @@
+<div ng-show='vm.error'>
+    <center>
+        <span class="icon-error-size glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+        <h3>{{vm.errorTitle}}</h3>
+        <p ng-repeat="error in vm.errors"> {{error}}</p>
+        <p>Please try again, if you are still experiencing the problem report it <a href="" target="_blank">here</a></p>
+    </center>
+</div>

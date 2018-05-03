@@ -1,0 +1,71 @@
+<div>
+    <h2>My Reservations</h2>
+    <br>
+    <section class="row">
+        <div class="col-md-12" ng-show="vm.reservations.length > 0 && !vm.isLoading && !vm.error">
+            <table class="table table-striped table-responsive">
+                <thead>
+                    <tr>
+                        <th>
+                            <a>Reservation ID</a>
+                        </th>
+                        <th>
+                            Branch Name
+                        </th>
+                        <th>
+                            Field #
+                        </th>
+                        <th>
+                            <a>Date</a>
+                        </th>
+                        <th>
+                            <a>Reservation Time</a>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="reservation in vm.reservations">
+                        <td>{{reservation.Reservation_Id}}</td>
+                        <td>{{reservation.Branch_Name}}</td>
+                        <td>{{reservation.Field_Number}}</td>
+                        <td>{{reservation.Date | date:'fullDate' }}</td>
+                        <td>{{reservation.Start_Time}} - {{reservation.End_Time}} </td>
+                        <td>
+                            <button ng-click="vm.removeReservation(vm.reservations, $index)" tooltip-placement="top" uib-tooltip="Cancel reservation" type="button" class="btn btn-default" aria-label="Left Align">
+                                <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section class="row">
+        <div class="col-md-offset-3 col-md-6" ng-show="!vm.isLoading && vm.reservations.length == 0">
+            <center>
+                <span class="icon-error-size glyphicon glyphicon-edit" aria-hidden="true"></span>
+                <h3>No Reservations found.</h3>
+            </center>
+        </div>
+    </section>
+    <section class="row">
+        <div class="col-md-offset-3 col-md-6 text-center">
+            <ng-include src="'app/templates/loading.html'"></ng-include>
+            <ng-include src="'app/templates/error.html'"></ng-include>
+        </div>
+    </section>
+</div>
+<script type="text/ng-template" id="deleteModal">
+    <div class="modal-header">
+        <h3 class="modal-title">Warning</h3>
+    </div>
+    <div class="modal-body">
+        Are you sure you want to delete your reservation? <br><br>
+        This action will delete <b>everything</b>, including your reservation branches previously created.
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="vm.okModal()">Yes</button>
+        <button class="btn btn-secondary" type="button" ng-click="vm.dismissModal()">Cancel</button>
+    </div>
+</script>

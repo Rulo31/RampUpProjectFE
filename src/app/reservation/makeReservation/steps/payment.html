@@ -1,0 +1,56 @@
+<br>
+<br>
+<div class="col-md-10">
+    <h3>Payment </h3>
+    <p>Please enter your payment details.</p>
+    <br>
+</div>
+<div class="col-md-2">
+    <br>
+    <button type="button" class="btn btn-default pull-right" wz-previous>
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        Back
+    </button>
+</div>
+<div class="col-md-12">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAiCAYAAAA6RwvCAAAAAXNSR0IArs4c6QAABJdJREFUWAnNWN1rHFUUP/fuuJsQP2qatrhQxCbs5rFaFezLtn4QLRWFCtIq/gXNqiT1wY8qVPtgEwq7/Q/UBsGID9IaqSbrQ9GH4osP2ZhYSzEQP8BUajbr7lx/vzs742Y6003KLmYgmbnnnnN+vznn3nPPrJINXDumTvXc2ZUa0qIOiJJ+JZIWo9LWhTKLRmRRjCy4Ys5dq6xOLQ0du75e9/DV+hooFe53RL1lRD2llHS1thAxRipKzPmamBPzufz3rWxuSuS+r8buTTpd7+Htj0BRGTEubheVcT8TV12q1tXiX4nfFwlyR70vnUyYtGizxyj9LKjsVaI0ogQzOVutVd64/NjolThCsUQyM0W8vZpABO7i24FGobZSGV8YOvZrnLNmef/Uqe1Od9cIUpdnFOFj2RhzeG7f8PlmPf85kshgqTBilHrfvpExkzWpvrqQG7nqG23k3l8a3+lI8jRe6hAjqox5bTaXHw/7uIEISSCiYwypct03Z/flT4aNbmU8OFN43Wj9LgCxdNzRMJk1RGw6tHwOXRBHGHPDH98KaJxNplR8nunmUsZqO9icJu0bcWHaNYFwMBLtJkEc+qRvppxYxPTxHf+Bu8NbmGayvI50DHxdyDmOGsUi3I0AXkcIvzP1+snyo6+UfZ9Rd6Y6Wyo+wDVjd6TIi9SzEWGd4Bbl7uDCjHLQLIOjlx1HzyCFB5HbBCK9A2ReUonED9npwnPNulHPxPB2ohyx2FCyRBJKHbeLCFu01e7IXDi9C7pjAF+q1d1HZnPD6XJuuLdu3ENGyd+i9QfZL4tetY1iAZnFABYxWSipplm2sT+e5NZinYixDcTqNmc/3t5xRZ2Y35//tjFhfszlP4Xft23NSKknAoOYB2IRk9WaHDTPDhrDycX1FCvUl+3Wt2t+CWOYuvnZyhTOoBaXh4UqDWx7ftkDDEa2bLcwbve0j0kO+JN+C4Czo91ALf35mDzJB78pYrupTLUq2Z8ePzoXZ7xt+p3be3XfWVTcnShISdSCCnTrIf0E8s40V7EQr/5ZWTl8s1Zg14UzmWRSgG/mHNtPwMo/RUOOg2Gvuvsh5PNpqOLy/geTTQ8g6I92b0klH14SmfYF4Tsxt0ofD5N0UFl7r3UHHsIGHKMkB7pR81GyVjbNmFgjxvYT//T03BPlrJOyABMc2LhYIrap6SRqhG8fkxw0e0yrg84qQrezIi0PWgBw0Gx0OfDau87ihr2jOD5DGTlodtv2AEKPyfYurNypsYdl9hKbHLTd58p8wR7B9phxyK57GQddLW76Bjl1aRNzEYuY7PTJwW5ZHsUJpS9hvazWZDUTdwIPnCts091qa4zvNWJ3xfwxfyD/2xphY+D1sak5lJwUTu09/NwIake2dOZDFKwX0MRN4lhv2VNEAaxXhn7mEzZGSMtH5dzR/xojOuB3ByaWqcBGd71ON6pH3w0Sy8T07YOIULApmmcSYVfN7w6wA2k10c7INCIxYX0Do7mDJ/aaiFDAa1N8YHlUGmn6vz85fTKb4iPcJ8O7V2fUcTbZXn/bPBv9jB3Yvp8lwhCd/KHmXykoU2GwolhLAAAAAElFTkSuQmCC"
+        class="notification__icon" />
+    <span class="notification__text">
+        We do not store your payment information, but we immediately transfer it via the encrypted channel to the payment system
+    </span>
+</div>
+<div class="col-md-offset-3 col-md-6">
+    <form name="PaymentForm" novalidate>
+        <br>
+        <div class="form-group" ng-class="{ 'has-error' : (PaymentForm.inputCardNumber.$error.required && vm.submitted) || (PaymentForm.inputCardNumber.$invalid && !PaymentForm.inputCardNumber.$error.required && vm.submitted) || (PaymentForm.inputCardHolder.$error.required && vm.submitted) }">
+            <label for="inputCardNumber">Enter card details</label>
+            <input type="text" name="inputCardNumber" autocomplete="off" class="form-control" ng-pattern="/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14})$/" placeholder="Card number" ng-model="card.Number" required/>
+            <input type="text" name="inputCardHolder" autocomplete="off" class="form-control" placeholder="Name of the holder (as on the card)" ng-model="card.Holder" required/>
+            <p ng-show="PaymentForm.inputCardNumber.$error.required && vm.submitted" class="help-block">Card number is required.</p>
+            <p ng-show="PaymentForm.inputCardNumber.$invalid && !PaymentForm.inputCardNumber.$error.required && vm.submitted" class="help-block">Card number has invalid format. Only MasterCard and Visa cards are accepted.</p>
+            <p ng-show="PaymentForm.inputCardHolder.$error.required && vm.submitted" class="help-block">Card holder is required.</p>
+        </div>
+        <br>
+        <div style="padding-left: 0;" class="col-md-6">
+            <div class="form-group" ng-class="{ 'has-error' : (PaymentForm.inputValidity.$error.required && vm.submitted) || (PaymentForm.inputValidity.$invalid && vm.submitted) }">
+                <label for="inputValidity">Validity</label>
+                <input type="text" autocomplete="off" placeholder="ММ / YY" ng-pattern="/^(0[1-9]|1[0-2])\/([0-9]{4}|[0-9]{2})$/" ng-model="vm.card.Validity" class="form-control" name="inputValidity" id="inputValidity" required>
+                <p ng-show="PaymentForm.inputValidity.$error.required && vm.submitted" class="help-block">Validity is required.</p>
+                <p ng-show="PaymentForm.inputValidity.$invalid && !PaymentForm.inputValidity.$error.required && vm.submitted" class="help-block">Validity format is not correct. Correct format is MM/YY or MM/YYYY</p>
+            </div>
+        </div>
+        <div style="padding-left: 0; padding-right: 0" class="col-md-6">
+            <div class="form-group" ng-class="{ 'has-error' : (PaymentForm.inputSecurityCode.$error.required && vm.submitted) || (PaymentForm.inputSecurityCode.$invalid && !PaymentForm.inputSecurityCode.$error.required && vm.submitted) }">
+                <label for="inputSecurityCode">Security Code</label>
+                <input type="text" autocomplete="off" placeholder="CVV" ng-pattern="/^[0-9]{3}$/" ng-model="vm.user.SecurityCode" class="form-control" name="inputSecurityCode" id="inputSecurityCode" required>
+                <p ng-show="PaymentForm.inputSecurityCode.$error.required && vm.submitted" class="help-block">Security Code is required.</p>
+                <p ng-show="PaymentForm.inputSecurityCode.$invalid && !PaymentForm.inputSecurityCode.$error.required && vm.submitted" class="help-block">Security Code format is not correct. Correct format must be only 3 numbers. </p>
+            </div>
+        </div>
+        <div style="padding: 0" class="col-md-12 text-center">
+            <button class="btn btn-primary" ng-click="vm.proceedWithPayment(PaymentForm)">
+                Proceed with Payment
+            </button>
+        </div>
+    </form>
+</div>

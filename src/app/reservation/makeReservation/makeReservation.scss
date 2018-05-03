@@ -1,0 +1,54 @@
+.steps-indicator li.editing a:before {
+    background-color: #0C71BE !important;
+}
+
+.steps-indicator li.current a:before {
+    background-color: #0C71BE !important;
+}
+
+.steps-indicator li.done a:before {
+    background-color: #339933;
+}
+
+.time-available {
+    background-color: #339933;
+    color: white !important;
+}
+
+.time-booked {
+    background-color: #d32f2f ;
+    color: white !important;
+}
+
+.time-booked:hover {
+    background-color: #b71c1c !important;
+}
+
+.time-booked:focus {
+    background-color: #b71c1c !important;
+}
+
+.time-booked:active {
+    background-color: black !important;
+}
+
+.time-available:hover {
+    background-color: #007E33 !important;
+}
+
+.time-available:focus {
+    background-color: black !important;
+}
+
+.time-available:active {
+    background-color: black !important;
+}
+
+// .step.ng-hide {
+//     opacity: 0;
+// }
+
+// .step.current {
+//     opacity: 1;
+//     transition: all 1s ease-in-out;
+// }

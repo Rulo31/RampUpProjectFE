@@ -1,0 +1,27 @@
+<br>
+<div ng-show="!vm.isLoading">
+	<wizard on-finish="vm.finishedWizard()" template="app/reservation/makeReservation/wizard.html" edit-mode="false" indicators-position="top"> 
+		<wz-step wz-title="Select Field">
+			<div ng-include="'app/reservation/makeReservation/steps/selectField.html'"></div>
+		</wz-step>
+		<wz-step wz-title="Select Date">
+			<div ng-include="'app/reservation/makeReservation/steps/selectDate.html'"></div>
+		</wz-step>
+		<wz-step wz-title="Select Time">
+			<div ng-include="'app/reservation/makeReservation/steps/selectTime.html'"></div>
+		</wz-step>
+		<wz-step wz-title="Reservation Confirmation">
+			<div ng-include="'app/reservation/makeReservation/steps/confirmation.html'"></div>
+		</wz-step>
+		<wz-step wz-title="Payment">
+			<div ng-include="'app/reservation/makeReservation/steps/payment.html'"></div>
+		</wz-step>
+		<wz-step wz-title="Payment Result">
+			<div ng-include="'app/reservation/makeReservation/steps/paymentResult.html'"></div>
+		</wz-step>
+	</wizard>
+</div>
+<div class="col-md-offset-3 col-md-6 text-center">
+	<ng-include src="'app/templates/loading.html'"></ng-include>
+	<ng-include src="'app/templates/error.html'"></ng-include>
+</div>

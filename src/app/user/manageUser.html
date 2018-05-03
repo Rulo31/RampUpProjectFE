@@ -1,0 +1,167 @@
+<section class="row">
+  <div class="col-md-10">
+    <h1>{{vm.action}}</h1>
+  </div>
+  <div class="col-md-2">
+    <button type="button" ng-hide="vm.isLoading || vm.mode == 'V'" ng-click="vm.submitUser(BasicInfoForm, AddressForm)" class="btn btn-primary btn-lg pull-right">Submit</button>
+    <button type="button" ng-hide="vm.isLoading || vm.mode == 'C' || vm.mode == 'U'" ng-click="vm.switchMode('U')" class="btn btn-primary btn-lg pull-right">Edit Profile</button>
+    <br>
+  </div>
+</section>
+<hr>
+<section class="row">
+  <div class="col-md-12 col" ng-show="!vm.isLoading && !vm.error">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">User Basic Information</h2>
+      </div>
+      <div class="panel-body">
+        <form name="BasicInfoForm" novalidate>
+          <div class="form-group" ng-class="{ 'has-error' : (BasicInfoForm.inputFirstName.$error.required && vm.submitted) || (BasicInfoForm.inputFirstName.$error.maxlength && vm.submitted) }">
+            <label for="inputFirstName">First Name</label>
+            <input type="text" autocomplete="off" ng-model="vm.user.First_Name" ng-disabled="vm.mode == 'V'" class="form-control" name="inputFirstName" id="inputFirstName" aria-describedby="firstNameHelp" ng-maxlength="50" required>
+            <p ng-show="BasicInfoForm.inputFirstName.$error.required && vm.submitted" class="help-block">Your name is required.</p>
+            <p ng-show="BasicInfoForm.inputFirstName.$error.maxlength && vm.submitted" class="help-block">First name is too long. Only 50 characters allowed.</p>
+          </div>
+          <div class="form-group" ng-class="{ 'has-error' : BasicInfoForm.inputMiddleName.$error.maxlength && vm.submitted }">
+            <label for="inputMiddleName">Middle Name</label>
+            <input type="text" autocomplete="off" ng-model="vm.user.Middle_Name" ng-disabled="vm.mode == 'V'" class="form-control" name="inputMiddleName" id="inputMiddleName" aria-describedby="middleNameHelp" ng-maxlength="50">
+            <p ng-show="BasicInfoForm.inputMiddleName.$error.maxlength && vm.submitted" class="help-block">Middle name is too long. Only 50 characters allowed.</p>
+          </div>
+          <div class="form-group" ng-class="{ 'has-error' : (BasicInfoForm.inputLastName.$error.required && vm.submitted) || (BasicInfoForm.inputLastName.$error.maxlength && vm.submitted) }">
+            <label for="inputLastName">Last Name(s)</label>
+            <input type="text" autocomplete="off" ng-model="vm.user.Last_Name" ng-disabled="vm.mode == 'V'" class="form-control" name="inputLastName" id="inputLastName" aria-describedby="lastNameHelp" ng-maxlength="50" required>
+            <p ng-show="BasicInfoForm.inputLastName.$error.required && vm.submitted" class="help-block">Your last name is required.</p>
+            <p ng-show="BasicInfoForm.inputLastName.$error.maxlength && vm.submitted" class="help-block">Last name is too long. Only 50 characters allowed.</p>
+          </div>
+          <div class="form-group" ng-class="{ 'has-error' : (BasicInfoForm.inputEmail.$error.required && vm.submitted) || (BasicInfoForm.inputEmail.$error.maxlength && vm.submitted) }">
+            <label for="inputEmail">Email address</label>
+            <input type="email" autocomplete="off" ng-model="vm.user.Email" ng-disabled="vm.mode == 'V' || vm.mode == 'U'" class="form-control" name="inputEmail" id="inputEmail" aria-describedby="emailHelp" ng-maxlength="250" required>
+            <p ng-show="BasicInfoForm.inputEmail.$error.required && vm.submitted" class="help-block">Please enter a valid email.</p>
+            <p ng-show="BasicInfoForm.inputEmail.$error.maxlength && vm.submitted" class="help-block">Email is too long. Only 250 characters allowed.</p>
+          </div>
+          <div class="form-group" ng-hide="vm.mode == 'V'" ng-class="{ 'has-error' : (BasicInfoForm.inputPassword.$error.required && vm.submitted) || BasicInfoForm.inputPassword.$error.maxlength && vm.submitted }">
+            <label for="inputPassword">Password</label>
+            <input type="password" autocomplete="off" ng-model="vm.user.Password" ng-disabled="vm.mode == 'V'" class="form-control" name="inputPassword" id="inputPassword" ng-maxlength="100" required>
+            <p ng-show="BasicInfoForm.inputPassword.$error.required && vm.submitted" class="help-block">A password is required.</p>
+            <p ng-show="BasicInfoForm.inputPassword.$error.maxlength && vm.submitted" class="help-block">Password is too long. Only 100 characters allowed.</p>
+          </div>
+          <div class="form-group" ng-hide="vm.mode == 'V'" ng-class="{ 'has-error' : (BasicInfoForm.inputConfirmPassword.$error.required && vm.submitted) || (BasicInfoForm.inputConfirmPassword.$error.pwmatch) || (BasicInfoForm.inputConfirmPassword.$error.maxlength && vm.submitted) }">
+            <label for="inputConfirmPassword">Confirm Password</label>
+            <input type="password" autocomplete="off" ng-model="vm.user.ConfirmPassword" ng-disabled="vm.mode == 'V'" class="form-control" name="inputConfirmPassword" id="inputConfirmPassword" ng-maxlength="50" pw-check='inputPassword' required>
+            <p ng-show="BasicInfoForm.inputConfirmPassword.$error.required && vm.submitted" class="help-block">Please type your password again.</p>
+            <p ng-show="BasicInfoForm.inputConfirmPassword.$error.pwmatch" class="help-block">Passwords don't match.</p>
+            <p ng-show="BasicInfoForm.inputConfirmPassword.$error.maxlength && vm.submitted" class="help-block">Password confirmation is too long. Only 100 characters allowed.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </section>
+  <section class="row">
+    <div class="col-md-6" ng-show='!vm.isLoading && !vm.error'>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title">Address</h2>
+        </div>
+        <div class="panel-body">
+          <form name="AddressForm" novalidate>
+            <div class="form-group" ng-class="{ 'has-error' : (AddressForm.inputFirstLine.$error.required && vm.submitted) || (AddressForm.inputFirstLine.$error.maxlength && vm.submitted) }">
+              <label for="inputFirstLine">First Line</label>
+              <input type="text" autocomplete="off" ng-model="vm.user.Address.First_Line" ng-disabled="vm.mode == 'V'" class="form-control" name="inputFirstLine" id="inputFirstLine" aria-describedby="firstLineHelp" ng-maxlength="50" required>
+              <p ng-show="AddressForm.inputFirstLine.$error.required && vm.submitted" class="help-block">Address first line is required.</p>
+              <p ng-show="AddressForm.inputFirstLine.$error.maxlength && vm.submitted" class="help-block">Address first line is too long. Only 50 characters allowed.</p>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : AddressForm.inputSecondLine.$error.maxlength && vm.submitted }">
+              <label for="inputSecondLine">Second Line</label>
+              <input type="text" autocomplete="off" ng-model="vm.user.Address.Second_Line" ng-disabled="vm.mode == 'V'" class="form-control" name="inputSecondLine" id="inputSecondLine" aria-describedby="secondLineHelp" ng-maxlength="50">
+              <p ng-show="AddressForm.inputSecondLine.$error.maxlength && vm.submitted" class="help-block">Address second line is too long. Only 50 characters allowed.</p>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : (AddressForm.inputCity.$error.required && vm.submitted) || (AddressForm.inputCity.$error.maxlength && vm.submitted) }">
+              <label for="inputCity">City</label>
+              <input type="text" autocomplete="off" ng-model="vm.user.Address.City" ng-disabled="vm.mode == 'V'" class="form-control" name="inputCity" id="inputCity" aria-describedby="cityHelp" ng-maxlength="50" required>
+              <p ng-show="AddressForm.inputCity.$error.required && vm.submitted" class="help-block">City is required.</p>
+              <p ng-show="AddressForm.inputCity.$error.maxlength && vm.submitted" class="help-block">City is too long. Only 50 characters allowed.</p>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : (AddressForm.inputState.$error.required && vm.submitted) || (AddressForm.inputState.$error.maxlength && vm.submitted) }">
+              <label for="inputState">State / Province</label>
+              <input type="text" autocomplete="off" ng-model="vm.user.Address.State" ng-disabled="vm.mode == 'V'" class="form-control" name="inputState" id="inputState" aria-describedby="stateHelp" ng-maxlength="50" required>
+              <p ng-show="AddressForm.inputState.$error.required && vm.submitted" class="help-block">State / Province is required.</p>
+              <p ng-show="AddressForm.inputState.$error.maxlength && vm.submitted" class="help-block">State / Province is too long. Only 50 characters allowed.</p>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : AddressForm.inputPostalCode.$invalid && vm.submitted }">
+              <label for="inputPostalCode">Postal Code</label>
+              <input type="text" autocomplete="off" ng-model="vm.user.Address.Postal_Code" ng-disabled="vm.mode == 'V'" ng-pattern="/^[0-9]*$/" class="form-control" name="inputPostalCode" id="inputPostalCode" aria-describedby="postalCodeHelp">
+              <p ng-show="AddressForm.inputPostalCode.$invalid && vm.submitted" class="help-block">Postal Code can contain only numbers.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6" ng-show='!vm.isLoading && !vm.error'>
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h2 class="panel-title pull-left" ng-class="{ 'padding-phone-panel': vm.mode != 'V' }">Phone Number(s)</h2>
+          <div class="btn-group pull-right" ng-hide="vm.mode == 'V'">
+            <a ng-click="vm.openModal('sm')" class="btn btn-primary btn-sm">Add</a>
+          </div>
+        </div>
+        <div class="panel-body">
+          <br>
+          <div ng-class="{ 'has-error' : vm.user.Phones.length == 0 && vm.submitted }" ng-show="vm.user.Phones.length == 0">
+            <p>0 phones addded.</p>
+            <p ng-show="vm.user.Phones.length == 0 && vm.submitted" class="help-block">At least 1 phone number is required.</p>
+          </div>
+          <div ng-show="vm.user.Phones.length > 0">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Phone Number</th>
+                  <th scope="col">Type</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="phone in vm.user.Phones">
+                  <td>{{phone.Phone_Number}}</td>
+                  <td>{{phone.Phone_Type}}</td>
+                  <td>
+                    <button class="btn btn-primary" type="button" ng-hide="vm.mode == 'V'" ng-click="vm.removePhoneNumber($index)">Remove</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<section class="col-md-offset-3 col-md-6 text-center">
+    <ng-include src="'app/templates/loading.html'"></ng-include>
+    <ng-include src="'app/templates/error.html'"></ng-include>
+    <!-- <div class="col-md-4 col text-center" ng-show="false">
+      <img class="image-size" src="assets/images/zlatan-ibrahimovic.png">
+    </div> -->
+</section>
+<script type="text/ng-template" id="managePhoneNumbers.html">
+  <div class="modal-header">
+      <h3 class="modal-title" id="modal-title">Phone Numbers</h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <form name="PhoneForm">
+      <div class="form-group"  ng-class="{ 'has-error' : PhoneForm.inputPhoneNumber.$invalid && vm.submittedPhone }">
+        <label for="inputPhoneNumber">Phone Number</label>
+        <input type="text" autocomplete="off" ng-model="vm.tempPhoneNumber.Phone_Number" ng-pattern="/^[0-9]*$/" class="form-control" name="inputPhoneNumber" id="inputPhoneNumber" aria-describedby="phone_numberHelp">
+        <p ng-show="PhoneForm.inputPhoneNumber.$invalid && vm.submittedPhone" class="help-block">Phone Number can contain only numbers.</p>
+      </div>
+      <div class="form-group">
+        <label for="inputCity">Phone Type</label>
+        <select class="form-control" ng-options="phoneType for phoneType in vm.phoneTypes" ng-model="vm.selectedPhoneType" ng-change="vm.tempPhoneNumber.Phone_Type == vm.selectedPhoneType"></select>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="vm.addPhoneNumber(PhoneForm)">Add</button>
+      <button class="btn btn-secondary" type="button" ng-click="vm.closeModal()">Close</button>
+  </div>
+</script>

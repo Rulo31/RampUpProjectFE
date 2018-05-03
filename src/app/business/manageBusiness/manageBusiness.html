@@ -1,0 +1,296 @@
+<section class="row">
+  <div class="col-md-9">
+    <h1>{{vm.action}}</h1>
+  </div>
+</section>
+<hr>
+<section class="row" ng-show='!vm.isLoading'>
+  <div class="col-md-10 col">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">Business Basic Information</h2>
+      </div>
+      <div class="panel-body">
+        <form name="BusinessForm" novalidate>
+          <div class="form-group" ng-class="{ 'has-error' : (BusinessForm.inputName.$error.required && vm.submitted) || (BusinessForm.inputName.$error.maxlength && vm.submitted) }">
+            <label for="inputName">Name</label>
+            <input type="text" autocomplete="off" ng-model="vm.business.Name" ng-disabled="vm.mode == 'V'" class="form-control" name="inputName" id="inputName" aria-describedby="nameHelp" ng-maxlength="250" required>
+            <p ng-show="BusinessForm.inputName.$error.required && vm.submitted" class="help-block">Business name is required.</p>
+            <p ng-show="BusinessForm.inputName.$error.maxlength && vm.submitted" class="help-block">Business name is too long. Only 250 characters allowed.</p>
+          </div>
+        </form>
+        <div class="col-md-12" style="padding: 0;">
+            <button type="button" ng-hide="vm.isLoading || vm.mode == 'V'" ng-click="vm.submitBusiness(BusinessForm)" class="btn btn-primary pull-right">Submit</button>
+            <button type="button" ng-hide="vm.isLoading || vm.mode == 'C' || vm.mode == 'U'" ng-click="vm.switchMode('U')" class="btn btn-primary pull-right">Edit your Business Name</button>
+            <br>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="row" ng-show="vm.business.Business_Id">
+    <div class="col-md-10">
+        <h3>Branches</h3>
+    </div>
+    <div class="col-md-2" style="padding-right: 31px;">
+      <button ng-click="vm.openBranchModal('C')" type="button" class="btn btn-success pull-right" aria-label="Left Align">
+        Add new Branch <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+      </button>
+    </div>
+</section>
+<section class="row" ng-show='!vm.isLoading'>
+  <div class="col-md-12" ng-show="vm.Branches.length > 0">
+    <table class="table table-striped" style="text-align: center; margin-bottom: 0px;">
+      <thead>
+        <tr>
+          <th scope="col" style="text-align: center;" class="viewFields-width"></th>
+          <th scope="col" style="text-align: center;" class="name-width">Name</th>
+          <th scope="col" style="text-align: center;" class="email-width">Email</th>
+          <th scope="col" style="text-align: center;" class="actions-width">Actions</th>
+        </tr>
+      </thead>
+    </table>
+    <div ng-repeat="branch in vm.Branches">
+      <table class="table table-striped text-center" style="margin-bottom: 0px;">
+        <tbody >
+          <tr>
+              <td class="viewFields-width"> 
+                <button ng-click="isOpen = !isOpen" tooltip-placement="top" uib-tooltip="Fields" type="button" class="btn btn-primary" aria-label="Left Align">
+                  <span ng-show="!isOpen" class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> 
+                  <span ng-show="isOpen" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span> 
+                  Fields
+                </button>
+              </td>
+              <td class="name-width"> {{branch.Name}} </td>
+              <td class="email-width"> {{branch.Email}} </td>
+              <td class="actions-width">
+                <button ng-click="vm.openBranchModal('V', branch, $index)" tooltip-placement="top" uib-tooltip="View details" type="button" class="btn btn-primary" aria-label="Left Align">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+                <button ng-click="vm.openBranchModal('U', branch, $index)" tooltip-placement="top" uib-tooltip="Edit branch" type="button" class="btn btn-primary" aria-label="Left Align">
+                  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                </button>
+                <button ng-click="vm.removeBranch(vm.Branches, $index)" tooltip-placement="top" uib-tooltip="Remove branch" type="button" class="btn btn-primary" aria-label="Left Align">
+                  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </button>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+      <br>
+      <div ng-if='(branch.Fields == undefined || branch.Fields.length == 0) && isOpen'>
+          <center>
+              <h4>There are no fields created for {{branch.Name}} branch.</h4>
+              <button style="display: inline-block;" ng-click="vm.openFieldModal('C', branch)" ng-show="isOpen" tooltip-placement="top" uib-tooltip="Add new field" type="button" class="btn btn-success" aria-label="Left Align"> Create new Field </button>
+          </center>
+          <br><br>
+      </div>      
+      <div ng-if="isOpen && branch.Fields.length > 0" class="col-md-offset-2 col-md-8">
+        <h4>{{branch.Name}} Fields</h4>
+        <table class="table table-striped text-center" style="margin-bottom: 40px;">
+        <thead>
+            <tr>
+              <th style="text-align: center;" scope="col" style="width: 26%;">Field #</th>
+              <th style="text-align: center;" scope="col" style="width: 26%;">Cost per hour</th>
+              <th style="text-align: center;" scope="col" style="width: 26%;">Actions</th>
+              <th style="text-align: center;" scope="col" style="width: 10%;">
+                <button ng-click="vm.openFieldModal('C', branch)" ng-show="isOpen" tooltip-placement="top" uib-tooltip="Add new field" type="button" class="btn btn-success pull-right" aria-label="Left Align">
+                  <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="field in branch.Fields">
+                  <td>{{ field.Number }}</td>
+                  <td>{{ field.Cost }}</td>
+                  <td>
+                      <button ng-click="vm.openFieldModal('V', field, $index)" tooltip-placement="top" uib-tooltip="View details" type="button" class="btn btn-primary" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                      </button>
+                      <button ng-click="vm.openFieldModal('U', field, $index)" tooltip-placement="top" uib-tooltip="Edit field" type="button" class="btn btn-primary" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                      </button>
+                      <button ng-click="vm.removeField(branch.Fields, $index)" tooltip-placement="top" uib-tooltip="Remove field" type="button" class="btn btn-primary" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                      </button>
+                    </td>
+                    <td></td>
+              </tr> 
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12" class="text-center" ng-if="vm.noElementsFound">
+      <center>
+          <h4>There are no branches created for {{vm.business.Name}}.</h4>
+      </center>
+      <br><br>
+  </div>  
+
+</section>
+<section class="row">
+    <div class="col-md-offset-3 col-md-6 text-center">
+        <ng-include src="'app/templates/loading.html'"></ng-include>
+        <ng-include src="'app/templates/error.html'"></ng-include>
+    </div>
+</section>
+<script type="text/ng-template" id="addBranches.html">
+  <div class="modal-header">
+      <h3 class="modal-title" id="modal-title">Branches</h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+      <form ng-hide="vm.isLoadingBranch" name="AddBranchForm">
+        <div class="form-group" ng-class="{ 'has-error' : (AddBranchForm.inputBranchName.$error.required && vm.submittedBranch) || (AddBranchForm.inputBranchName.$error.maxlength && vm.submittedBranch) }">
+          <label ng-class="{ 'mandatory-field': vm.branchMode != 'V' }" for="inputBranchName">Branch Name / Location</label>
+          <input type="text" autocomplete="off" ng-model="vm.tempBranch.Name" ng-disabled="vm.branchMode == 'V'" class="form-control" name="inputBranchName" id="inputBranchName" aria-describedby="branchNameHelp" ng-maxlength="250" required>
+          <p ng-show="AddBranchForm.inputBranchName.$error.required && vm.submittedBranch" class="help-block">Branch Name is required.</p>
+          <p ng-show="AddBranchForm.inputBranchName.$error.maxlength && vm.submittedBranch" class="help-block">Branch Name is too long. Only 250 characters allowed.</p>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : (AddBranchForm.inputEmail.$error.required && vm.submittedBranch) || (AddBranchForm.inputEmail.$error.maxlength && vm.submittedBranch) || (AddBranchForm.inputEmail.$invalid && vm.submittedBranch)}">
+          <label ng-class="{ 'mandatory-field': vm.branchMode != 'V' }" for="inputEmail">Email address</label>
+          <input type="email" autocomplete="off" ng-model="vm.tempBranch.Email" ng-disabled="vm.branchMode == 'V'" class="form-control" name="inputEmail" id="inputEmail" aria-describedby="emailHelp" ng-maxlength="250" required>
+          <p ng-show="AddBranchForm.inputEmail.$invalid && vm.submittedBranch" class="help-block">Please enter a valid email.</p>
+          <p ng-show="AddBranchForm.inputEmail.$error.required && vm.submittedBranch" class="help-block">Email Address is required.</p>
+          <p ng-show="AddBranchForm.inputEmail.$error.maxlength && vm.submittedBranch" class="help-block">Email is too long. Only 250 characters allowed.</p>
+        </div>
+        <div class="form-group"  ng-class="{ 'has-error' : (AddBranchForm.inputPhoneNumber.$invalid && vm.submittedBranch) || (AddBranchForm.inputPhoneNumber.$invalid && vm.submittedBranch) }">
+          <label ng-class="{ 'mandatory-field': vm.branchMode != 'V' }" for="inputPhoneNumber">Phone Number</label>
+          <input type="text" autocomplete="off" ng-model="vm.tempBranch.Phone_Number" ng-disabled="vm.branchMode == 'V'" ng-pattern="/^[0-9]*$/" class="form-control" name="inputPhoneNumber" id="inputPhoneNumber" aria-describedby="phone_numberHelp" required>
+          <p ng-show="AddBranchForm.inputPhoneNumber.$error.required && vm.submittedBranch" class="help-block">Phone Number is required.</p>
+          <p ng-show="AddBranchForm.inputPhoneNumber.$invalid && vm.submittedBranch" class="help-block">Phone Number can contain only numbers.</p>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h2 class="panel-title">Address</h2>
+            </div>
+            <div class="panel-body">
+              <div class="form-group" ng-class="{ 'has-error' : (AddBranchForm.inputFirstLine.$error.required && vm.submittedBranch) || (AddBranchForm.inputFirstLine.$error.maxlength && vm.submittedBranch) }">
+                <label ng-class="{ 'mandatory-field': vm.branchMode != 'V' }" for="inputFirstLine">First Line</label>
+                <input type="text" autocomplete="off" ng-disabled="vm.branchMode == 'V'" ng-model="vm.tempAddress.First_Line" ng-disabled="vm.mode == 'V'" class="form-control" name="inputFirstLine" id="inputFirstLine" aria-describedby="firstLineHelp" ng-maxlength="50" required>
+                <p ng-show="AddBranchForm.inputFirstLine.$error.required && vm.submittedBranch" class="help-block">Address first line is required.</p>
+                <p ng-show="AddBranchForm.inputFirstLine.$error.maxlength && vm.submittedBranch" class="help-block">Address first line is too long. Only 50 characters allowed.</p>
+              </div>
+              <div class="form-group" ng-class="{ 'has-error' : AddBranchForm.inputSecondLine.$error.maxlength && vm.submittedBranch }">
+                <label for="inputSecondLine">Second Line</label>
+                <input type="text" autocomplete="off" ng-disabled="vm.branchMode == 'V'" ng-model="vm.tempAddress.Second_Line" ng-disabled="vm.mode == 'V'" class="form-control" name="inputSecondLine" id="inputSecondLine" aria-describedby="secondLineHelp" ng-maxlength="50">
+                <p ng-show="AddBranchForm.inputSecondLine.$error.maxlength && vm.submittedBranch" class="help-block">Address second line is too long. Only 50 characters allowed.</p>
+              </div>
+              <div class="form-group" ng-class="{ 'has-error' : (AddBranchForm.inputCity.$error.required && vm.submittedBranch) || (AddBranchForm.inputCity.$error.maxlength && vm.submittedBranch) }">
+                <label ng-class="{ 'mandatory-field': vm.branchMode != 'V' }" for="inputCity">City</label>
+                <input type="text" autocomplete="off" ng-disabled="vm.branchMode == 'V'" ng-model="vm.tempAddress.City" ng-disabled="vm.mode == 'V'" class="form-control" name="inputCity" id="inputCity" aria-describedby="cityHelp" ng-maxlength="50" required>
+                <p ng-show="AddBranchForm.inputCity.$error.required && vm.submittedBranch" class="help-block">City is required.</p>
+                <p ng-show="AddBranchForm.inputCity.$error.maxlength && vm.submittedBranch" class="help-block">City is too long. Only 50 characters allowed.</p>
+              </div>
+              <div class="form-group" ng-class="{ 'has-error' : (AddBranchForm.inputState.$error.required && vm.submittedBranch) || (AddBranchForm.inputState.$error.maxlength && vm.submittedBranch) }">
+                <label ng-class="{ 'mandatory-field': vm.branchMode != 'V' }" for="inputState">State / Province</label>
+                <input type="text" autocomplete="off" ng-disabled="vm.branchMode == 'V'" ng-model="vm.tempAddress.State" ng-disabled="vm.mode == 'V'" class="form-control" name="inputState" id="inputState" aria-describedby="stateHelp" ng-maxlength="50" required>
+                <p ng-show="AddBranchForm.inputState.$error.required && vm.submittedBranch" class="help-block">State / Province is required.</p>
+                <p ng-show="AddBranchForm.inputState.$error.maxlength && vm.submittedBranch" class="help-block">State / Province is too long. Only 50 characters allowed.</p>
+              </div>
+              <div class="form-group" ng-class="{ 'has-error' : AddBranchForm.inputPostalCode.$invalid && vm.submittedBranch }">
+                <label for="inputPostalCode">Postal Code</label>
+                <input type="text" autocomplete="off" ng-disabled="vm.branchMode == 'V'" ng-model="vm.tempAddress.Postal_Code" ng-disabled="vm.mode == 'V'" ng-pattern="/^[0-9]*$/" class="form-control" name="inputPostalCode" id="inputPostalCode" aria-describedby="postalCodeHelp">
+                <p ng-show="AddBranchForm.inputPostalCode.$invalid && vm.submittedBranch" class="help-block">Postal Code can contain only numbers.</p>
+              </div>
+            </div>
+          </div>
+          <p class="mandatory-field" style="text-align: right;" ng-show="vm.branchMode != 'V'">Required field.</p>
+      </form>
+      <div class='text-center' ng-show='vm.isLoadingBranch'>
+        <h3>Please wait...</h3>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+            style="width:100%">
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-show="vm.branchMode == 'U'" ng-click="vm.updateBranch(AddBranchForm)">Update</button>
+      <button class="btn btn-primary" type="button" ng-show="vm.branchMode == 'C'" ng-click="vm.addBranch(AddBranchForm)">Add</button>
+      <button class="btn btn-secondary" type="button" ng-click="vm.okModal()">Close</button>
+  </div>
+</script>
+<script type="text/ng-template" id="deleteModal">
+  <div class="modal-header">
+      <h3 class="modal-title">Warning</h3>
+  </div>
+  <div class="modal-body">
+      Are you sure you want to delete your branch? <br><br>
+      This action will delete all the information related with your branch.
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="vm.okModal()">Yes</button>
+      <button class="btn btn-secondary" type="button" ng-click="vm.dismissModal()">Cancel</button>
+  </div>
+</script>
+<script type="text/ng-template" id="deleteFieldModal">
+  <div class="modal-header">
+      <h3 class="modal-title">Warning</h3>
+  </div>
+  <div class="modal-body">
+      Are you sure you want to delete your field? <br><br>
+      This action will delete all the information related with your field. Including existing reservations.
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="vm.okModal()">Yes</button>
+      <button class="btn btn-secondary" type="button" ng-click="vm.dismissModal()">Cancel</button>
+  </div>
+</script>
+<script type="text/ng-template" id="addFields.html">
+  <div class="modal-header">
+      <h3 class="modal-title" id="modal-title">Field</h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <form ng-hide="vm.isLoadingField" name="AddFieldForm">
+      <div class="form-group"  ng-class="{ 'has-error' : (AddFieldForm.inputNumber.$invalid && vm.submittedField) || (AddFieldForm.inputNumber.$invalid && vm.submittedField) }">
+        <label ng-class="{ 'mandatory-field': vm.fieldMode != 'V' }" for="inputNumber">Field #</label>
+        <input type="text" autocomplete="off" ng-model="vm.tempField.Number" ng-disabled="vm.fieldMode == 'V'" ng-pattern="/^[0-9]*$/" class="form-control" name="inputNumber" id="inputNumber" aria-describedby="numberHelp" required>
+        <p ng-show="AddFieldForm.inputNumber.$error.required && vm.submittedField" class="help-block">Field # is required.</p>
+        <p ng-show="AddFieldForm.inputNumber.$invalid && vm.submittedField" class="help-block">Field # can contain only numbers.</p>
+      </div>
+      <div class="form-group" ng-class="{ 'has-error' : (AddFieldForm.inputFieldName.$error.required && vm.submittedField) || (AddFieldForm.inputFieldName.$error.maxlength && vm.submittedField) }">
+        <label for="inputFieldName">Name</label>
+        <input type="text" autocomplete="off" ng-model="vm.tempField.Name" ng-disabled="vm.fieldMode == 'V'" class="form-control" name="inputFieldName" id="inputFieldName" aria-describedby="fieldNameHelp" ng-maxlength="250">
+        <p ng-show="AddFieldForm.inputFieldName.$error.required && vm.submittedField" class="help-block">Field Name is required.</p>
+        <p ng-show="AddFieldForm.inputFieldName.$error.maxlength && vm.submittedField" class="help-block">Field Name is too long. Only 250 characters allowed.</p>
+      </div>
+      <div class="form-group"  ng-class="{ 'has-error' : (AddFieldForm.inputWidth.$invalid && vm.submittedField) || (AddFieldForm.inputWidth.$invalid && vm.submittedField) }">
+        <label for="inputWidth">Width</label>
+        <input type="text" autocomplete="off" ng-model="vm.tempField.Width" ng-disabled="vm.fieldMode == 'V'" ng-pattern="/^[0-9]*$/" class="form-control" name="inputWidth" id="inputWidth" aria-describedby="widthHelp">
+        <p ng-show="AddFieldForm.inputWidth.$invalid && vm.submittedField" class="help-block">Width can contain only numbers.</p>
+      </div>
+      <div class="form-group"  ng-class="{ 'has-error' : (AddFieldForm.inputLength.$invalid && vm.submittedField) || (AddFieldForm.inputLength.$invalid && vm.submittedField) }">
+        <label for="inputLength">Length</label>
+        <input type="text" autocomplete="off" ng-model="vm.tempField.Length" ng-disabled="vm.fieldMode == 'V'" ng-pattern="/^[0-9]*$/" class="form-control" name="inputLength" id="inputLength" aria-describedby="lengthHelp">
+        <p ng-show="AddFieldForm.inputLength.$invalid && vm.submittedField" class="help-block">Length can contain only numbers.</p>
+      </div>
+      <div class="form-group"  ng-class="{ 'has-error' : (AddFieldForm.inputCost.$invalid && vm.submittedField) || (AddFieldForm.inputCost.$invalid && vm.submittedField) }">
+        <label ng-class="{ 'mandatory-field': vm.fieldMode != 'V' }" for="inputCost">Cost / h</label>
+        <input type="text" autocomplete="off" ng-model="vm.tempField.Cost" ng-disabled="vm.fieldMode == 'V'" ng-pattern="/^[0-9]*$/" class="form-control" name="inputCost" id="inputCost" aria-describedby="costHelp" required>
+        <p ng-show="AddFieldForm.inputCost.$invalid && vm.submittedField" class="help-block">Cost can contain only numbers.</p>
+        <p ng-show="AddFieldForm.inputCost.$error.required && vm.submittedField" class="help-block">Cost is required.</p>
+      </div>
+      <div class="form-group">
+        <label ng-class="{ 'mandatory-field': vm.fieldMode != 'V' }" for="inputCity">Material</label>
+        <select class="form-control" ng-disabled="vm.fieldMode == 'V'" ng-options="material for material in vm.materials" ng-model="vm.selectedMaterial"></select>
+      </div>
+      <p class="mandatory-field" style="text-align: right;" ng-show="vm.fieldMode != 'V'">Required field.</p>
+    </form>
+    <div class='text-center' ng-show='vm.isLoadingField'>
+      <h3>Please wait...</h3>
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+          style="width:100%">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-show="vm.fieldMode == 'U'" ng-click="vm.updateField(AddFieldForm)">Update</button>
+    <button class="btn btn-primary" type="button" ng-show="vm.fieldMode == 'C'" ng-click="vm.addField(AddFieldForm)">Add</button>
+    <button class="btn btn-secondary" type="button" ng-click="vm.okModal()">Close</button>
+  </div>
+</script>

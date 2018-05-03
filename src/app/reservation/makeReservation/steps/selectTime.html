@@ -1,0 +1,38 @@
+<br><br>
+    <div class="col-md-10">
+        <h3>Time Selection </h3>
+        <p>Please select the time slot that you want to reserve.</p>
+        <br>
+    </div>
+    <div class="col-md-2">
+        <br>
+        <button type="button" class="btn btn-default pull-right" wz-previous>
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            Back
+        </button>
+    </div>
+    <div class="col-md-12">
+        <div class="col-md-4 list-group text-center">
+            <h3>Morning</h3>
+            <a ng-click="vm.selectTime(morningTimeSlot)" ng-class="{ 'time-available' : morningTimeSlot.status == 'A', 'time-booked' : morningTimeSlot.status != 'A' }"  ng-repeat="morningTimeSlot in vm.timeSlots.morningTimeSlots" href="" class="list-group-item">
+                {{morningTimeSlot.value}}
+            </a>
+        </div>
+        <div class="col-md-4 list-group text-center">
+            <h3>Afternoon</h3>
+            <a ng-click="vm.selectTime(afternoonTimeSlot)" ng-class="{ 'time-available' : afternoonTimeSlot.status == 'A', 'time-booked' : afternoonTimeSlot.status != 'A' }" ng-repeat="afternoonTimeSlot in vm.timeSlots.afternoonTimeSlots" href="" class="list-group-item">
+                {{afternoonTimeSlot.value}}
+            </a>
+        </div>
+        <div class="col-md-4 list-group text-center">
+            <h3>Evening</h3>
+            <a ng-click="vm.selectTime(eveningTimeSlot)" ng-class="{ 'time-available' : eveningTimeSlot.status == 'A', 'time-booked' : eveningTimeSlot.status != 'A' }" ng-repeat="eveningTimeSlot in vm.timeSlots.eveningTimeSlots" href="" class="list-group-item">
+                {{eveningTimeSlot.value}}
+            </a>
+        </div>
+    </div>
+    <br>
+    <!-- <div class="col-md-offset-3 col-md-6">
+        <pre ng-show="vm.selectedTime" class="text-center">Selected time <em> {{ vm.selectedTime.value }} </em></pre>
+    </div> -->
+    
